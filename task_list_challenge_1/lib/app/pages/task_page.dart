@@ -101,7 +101,68 @@ class _TaskPageState extends State<TaskPage> {
                     itemBuilder: (BuildContext bc, int index) {
                       Task task = taskRepository.getTaskList[index];
                       return ListTile(
-                        title: Text(task.getTitle),
+                        title: Card(
+                          elevation: 8,
+                          shadowColor: Colors.green,
+                          color: const Color.fromARGB(255, 203, 202, 202),
+                          child: Column(
+                            children: [
+                              Container(
+                                width: double.infinity,
+                                margin: const EdgeInsets.only(
+                                  left: 20,
+                                  top: 5,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      "TASK",
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 10),
+                                      child: Row(
+                                        children: [
+                                          const Icon(Icons.edit),
+                                          const Icon(Icons.delete),
+                                          Checkbox(
+                                              value: task.isFinished,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  task.isFinished = value!;
+                                                });
+                                              }),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                width: double.infinity,
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: Flexible(
+                                  flex: 1,
+                                  child: Text(
+                                    task.getTitle,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                            ],
+                          ),
+                        ),
                       );
                     }),
               )

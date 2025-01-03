@@ -65,8 +65,15 @@ class _TaskPageState extends State<TaskPage> {
                       suffixIcon: IconButton(
                           onPressed: () {
                             setState(() {
-                              taskRepository.addTask(
-                                  Task(textEditingController.text, false));
+                              String msg = textEditingController.text;
+                              if (msg != "") {
+                                taskRepository.addTask(Task(msg, false));
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content:
+                                            Text("Campo em branco detectado")));
+                              }
                               textEditingController.text = "";
                             });
                           },

@@ -12,7 +12,8 @@ class TaskPage extends StatefulWidget {
 
 class _TaskPageState extends State<TaskPage> {
   TaskRepository taskRepository = TaskRepository();
-  TextEditingController textEditingController = TextEditingController();
+  TextEditingController textEditingController = TextEditingController(),
+      editController = TextEditingController();
   List<Task> _tasks = [];
 
   @override
@@ -104,13 +105,12 @@ class _TaskPageState extends State<TaskPage> {
               ),
               Expanded(
                 child: ListView.builder(
-                    itemCount: taskRepository.getTaskList.length,
+                    itemCount: _tasks.length,
                     itemBuilder: (BuildContext bc, int index) {
-                      Task task = taskRepository.getTaskList[index];
+                      Task task = _tasks[index];
                       return ListTile(
                         title: Card(
                           elevation: 8,
-                          shadowColor: Colors.green,
                           color: const Color.fromARGB(255, 203, 202, 202),
                           child: Column(
                             children: [
@@ -134,8 +134,109 @@ class _TaskPageState extends State<TaskPage> {
                                       padding: const EdgeInsets.only(right: 10),
                                       child: Row(
                                         children: [
-                                          const Icon(Icons.edit),
-                                          const Icon(Icons.delete),
+                                          InkWell(
+                                              onTap: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext bc) {
+                                                    editController.text =
+                                                        task.getTitle;
+                                                    return AlertDialog(
+                                                      title: const Text(
+                                                        "Edit",
+                                                        style: TextStyle(
+                                                          fontSize: 22,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      content: Wrap(
+                                                        children: [
+                                                          TextFormField(
+                                                            controller:
+                                                                editController,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      actions: [
+                                                        ElevatedButton(
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              task.setTitle =
+                                                                  editController
+                                                                      .text;
+                                                              Navigator.pop(
+                                                                  context);
+                                                            });
+                                                          },
+                                                          child: const Text(
+                                                            "Salvar",
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              child: const Icon(Icons.edit)),
+                                          InkWell(
+                                              onTap: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext bd) {
+                                                    return AlertDialog(
+                                                      title: const Text(
+                                                        "Deletar Task",
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      content: const Wrap(
+                                                        children: [
+                                                          Text(
+                                                            "Realmente quer deletar esta task ?",
+                                                            style: TextStyle(
+                                                                fontSize: 20),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              taskRepository
+                                                                  .deleteTask(
+                                                                task.getTitle,
+                                                              );
+                                                              Navigator.pop(
+                                                                  context);
+                                                            });
+                                                          },
+                                                          child: const Text(
+                                                            "Sim",
+                                                            style: TextStyle(
+                                                              fontSize: 16,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: const Text(
+                                                            "Não",
+                                                            style: TextStyle(
+                                                                fontSize: 16),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              child: const Icon(Icons.delete)),
                                           Checkbox(
                                               value: task.isFinished,
                                               onChanged: (value) {

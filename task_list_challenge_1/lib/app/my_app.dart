@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_list_challenge_1/app/pages/task_page.dart';
+import 'package:task_list_challenge_1/app/page/main_page.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
             backgroundColor: Colors.green,
           )),
       debugShowCheckedModeBanner: false,
-      home: const TaskPage(),
+      home: const MainPage(),
     );
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_list_challenge_1/app/page/main_page.dart';
-
+import 'package:task_list_challenge_1/app/pages/main_page.dart';
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

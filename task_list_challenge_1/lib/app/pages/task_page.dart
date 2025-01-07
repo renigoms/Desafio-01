@@ -124,9 +124,9 @@ class _TaskPageState extends State<TaskPage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    const Text(
-                                      "TASK",
-                                      style: TextStyle(
+                                     Text(
+                                      "TASK ${task.getId}",
+                                      style: const TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold),
                                     ),

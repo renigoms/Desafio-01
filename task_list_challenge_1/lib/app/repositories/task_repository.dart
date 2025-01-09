@@ -7,6 +7,6 @@ class TaskRepository {
 
   List<Task> get getTaskList => _taskListBase;
 
-  void deleteTask(String title) => _taskListBase.removeWhere((value) => value.getTitle == title);
+  void deleteTask(String id) => _taskListBase.removeWhere((value) => value.getId == id);
 
 }

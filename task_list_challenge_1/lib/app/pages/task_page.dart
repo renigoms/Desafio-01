@@ -104,181 +104,175 @@ class _TaskPageState extends State<TaskPage> {
                   height: 20,
                 ),
                 Expanded(
-                    child: ListView.builder(
-                        itemCount: _tasks.length,
-                        itemBuilder: (BuildContext bc, int index) {
-                          Task task = _tasks[index];
-                          return ListTile(
-                            title: Card(
-                              elevation: 8,
-                              color: const Color.fromARGB(255, 203, 202, 202),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    width: double.infinity,
-                                    margin: const EdgeInsets.only(
-                                      left: 20,
-                                      top: 5,
+                  child: ListView.builder(
+                    itemCount: _tasks.length,
+                    itemBuilder: (BuildContext bc, int index) {
+                      Task task = _tasks[index];
+                      return ListTile(
+                        title: Card(
+                          elevation: 8,
+                          color: const Color.fromARGB(255, 203, 202, 202),
+                          child: Column(
+                            children: [
+                              Container(
+                                width: double.infinity,
+                                margin: const EdgeInsets.only(
+                                  left: 20,
+                                  top: 5,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "TASK ${task.getId}",
+                                      style: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
                                     ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "TASK ${task.getId}",
-                                          style: const TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 10),
-                                          child: Row(
-                                            children: [
-                                              InkWell(
-                                                  onTap: () {
-                                                    showDialog(
-                                                      context: context,
-                                                      builder:
-                                                          (BuildContext bc) {
-                                                        editController.text =
-                                                            task.getTitle;
-                                                        return AlertDialog(
-                                                          title: const Text(
-                                                            "Edit",
-                                                            style: TextStyle(
-                                                              fontSize: 22,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                            ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 10),
+                                      child: Row(
+                                        children: [
+                                          InkWell(
+                                              onTap: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext bc) {
+                                                    editController.text =
+                                                        task.getTitle;
+                                                    return AlertDialog(
+                                                      title: const Text(
+                                                        "Edit",
+                                                        style: TextStyle(
+                                                          fontSize: 22,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      content: Wrap(
+                                                        children: [
+                                                          TextFormField(
+                                                            controller:
+                                                                editController,
                                                           ),
-                                                          content: Wrap(
-                                                            children: [
-                                                              TextFormField(
-                                                                controller:
-                                                                    editController,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          actions: [
-                                                            ElevatedButton(
-                                                              onPressed: () {
-                                                                taskService.saveEdition(
+                                                        ],
+                                                      ),
+                                                      actions: [
+                                                        ElevatedButton(
+                                                          onPressed: () {
+                                                            taskService
+                                                                .saveEdition(
                                                                     editController
                                                                         .text,
                                                                     context);
-                                                                task.setTitle =
-                                                                    taskService
-                                                                        .textEdited;
-                                                              },
-                                                              child: const Text(
-                                                                "Save",
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        );
-                                                      },
-                                                    );
-                                                  },
-                                                  child:
-                                                      const Icon(Icons.edit)),
-                                              InkWell(
-                                                  onTap: () {
-                                                    showDialog(
-                                                      context: context,
-                                                      builder:
-                                                          (BuildContext bd) {
-                                                        return AlertDialog(
-                                                          title: const Text(
-                                                            "Delete Task",
-                                                            style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                            ),
-                                                          ),
-                                                          content: const Wrap(
-                                                            children: [
-                                                              Text(
-                                                                "Do you really want to delete this task ?",
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        20),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          actions: [
-                                                            TextButton(
-                                                              onPressed: () {
+                                                            task.setTitle =
                                                                 taskService
-                                                                    .removeTask(
-                                                                        task.getId,
-                                                                        context);
-                                                              },
-                                                              child: const Text(
-                                                                "Yes",
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 16,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            TextButton(
-                                                              onPressed: () {
-                                                                Navigator.pop(
-                                                                    context);
-                                                              },
-                                                              child: const Text(
-                                                                "No",
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        16),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        );
-                                                      },
+                                                                    .textEdited;
+                                                          },
+                                                          child: const Text(
+                                                            "Save",
+                                                          ),
+                                                        ),
+                                                      ],
                                                     );
                                                   },
-                                                  child:
-                                                      const Icon(Icons.delete)),
-                                              Checkbox(
-                                                  value: task.isFinished,
-                                                  onChanged: (value) {
-                                                    taskService.setIsFinished(value!);
-                                                    task.isFinished =
-                                                        taskService.isFinished;
-                                                  }),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    width: double.infinity,
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 20),
-                                    child: Flexible(
-                                      flex: 1,
-                                      child: Text(
-                                        task.getTitle,
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                                );
+                                              },
+                                              child: const Icon(Icons.edit)),
+                                          InkWell(
+                                              onTap: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext bd) {
+                                                    return AlertDialog(
+                                                      title: const Text(
+                                                        "Delete Task",
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      content: const Wrap(
+                                                        children: [
+                                                          Text(
+                                                            "Do you really want to delete this task ?",
+                                                            style: TextStyle(
+                                                                fontSize: 20),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            taskService
+                                                                .removeTask(
+                                                                    task.getId,
+                                                                    context);
+                                                          },
+                                                          child: const Text(
+                                                            "Yes",
+                                                            style: TextStyle(
+                                                              fontSize: 16,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: const Text(
+                                                            "No",
+                                                            style: TextStyle(
+                                                                fontSize: 16),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              child: const Icon(Icons.delete)),
+                                          Checkbox(
+                                              value: task.isFinished,
+                                              onChanged: (value) {
+                                                taskService
+                                                    .setIsFinished(value!);
+                                                task.isFinished =
+                                                    taskService.isFinished;
+                                              }),
+                                        ],
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          );
-                        }))
+                              Container(
+                                width: double.infinity,
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: Flexible(
+                                  flex: 1,
+                                  child: Text(
+                                    task.getTitle,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ],
             ),
           ),

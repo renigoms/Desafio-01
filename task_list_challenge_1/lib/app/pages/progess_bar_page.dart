@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:task_list_challenge_1/app/repositories/task_repository.dart';
@@ -31,11 +32,19 @@ class _ProgressBarPageState extends State<ProgressBarPage> {
           ),
         ),
       ),
+      floatingActionButton: ElevatedButton.icon(
+        onPressed: () {
+          GoRouter.of(context).push('/progress_bar/graph_vs');
+        },
+        label: const Icon(
+          Icons.analytics_outlined,
+        ),
+      ),
       body: Consumer<ProgressService>(builder: (_, progressService, widget) {
         _percent = progressService.percent;
         return RefreshIndicator(
           onRefresh: () =>
-              progressService.refreshList(_taskRepository.getTaskList),
+              progressService.calculatePercent(_taskRepository.getTaskList),
           child: ListView(
             children: [
               const SizedBox(

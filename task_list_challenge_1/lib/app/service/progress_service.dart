@@ -6,7 +6,7 @@ class ProgressService extends ChangeNotifier {
 
   double get percent => _percent;
 
-  Future <void> refreshList(List<Task> listTasks) async {
+  Future<void> calculatePercent(List<Task> listTasks) async {
     await Future.delayed(const Duration(seconds: 2));
     final totalSize = listTasks.length,
         completedTasks = listTasks.where((task) => task.isFinished).length;

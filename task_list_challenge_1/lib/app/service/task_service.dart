@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:task_list_challenge_1/app/model/task_model.dart';
 import 'package:task_list_challenge_1/app/repositories/task_repository.dart';
 
@@ -15,13 +16,13 @@ class TaskService extends ChangeNotifier {
 
   void saveEdition(String edit, BuildContext context) {
     _textEdited = edit;
-    Navigator.pop(context);
+    GoRouter.of(context).pop();
     notifyListeners();
   }
 
   void removeTask(String id, BuildContext context) {
     _taskRepository.deleteTask(id);
-    Navigator.pop(context);
+    GoRouter.of(context).pop();
     notifyListeners();
   }
 
@@ -33,8 +34,8 @@ class TaskService extends ChangeNotifier {
     if (message != "") {
       _taskRepository.addTask(Task(message, false));
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Blank field detected")));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Blank field detected")));
     }
     _messageField = "";
     notifyListeners();

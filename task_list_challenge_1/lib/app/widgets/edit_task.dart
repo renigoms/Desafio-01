@@ -3,16 +3,18 @@ import 'package:provider/provider.dart';
 import 'package:task_list_challenge_1/app/model/task_model.dart';
 import 'package:task_list_challenge_1/app/service/task_service.dart';
 
+
 class EditConfigWidget extends StatelessWidget {
-  late TextEditingController _editController;
-  late Task _task;
-  EditConfigWidget(
+  final TextEditingController _editController;
+  final Task _task;
+  
+  const EditConfigWidget(
       {super.key,
       required TextEditingController editController,
-      required Task task}) {
-    _task = task;
+      required Task task}):
+    _task = task,
     _editController = editController;
-  }
+  
 
   @override
   Widget build(BuildContext context) {

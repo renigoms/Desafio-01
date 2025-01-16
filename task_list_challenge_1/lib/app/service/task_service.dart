@@ -9,6 +9,7 @@ class TaskService extends ChangeNotifier {
   final TaskRepository _taskRepository = TaskRepository();
   bool _isFinished = false;
 
+
   void rebuildList() {
     _tasks = _taskRepository.getTaskList;
     notifyListeners();
@@ -23,6 +24,25 @@ class TaskService extends ChangeNotifier {
   void removeTask(String id, BuildContext context) {
     _taskRepository.deleteTask(id);
     GoRouter.of(context).pop();
+    notifyListeners();
+  }
+
+  void taskFilter(String filter) {
+    switch (filter) {
+      case "Completed":
+        _tasks = _taskRepository.getTaskList
+            .where((task) => task.isFinished)
+            .toList();
+        break;
+      case "Pending":
+        _tasks = _taskRepository.getTaskList
+            .where((task) => !task.isFinished)
+            .toList();
+        break;
+      case "WithoutFilter":
+        _tasks = _taskRepository.getTaskList;
+        break;
+    }
     notifyListeners();
   }
 

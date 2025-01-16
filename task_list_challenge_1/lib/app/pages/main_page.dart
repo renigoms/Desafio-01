@@ -6,7 +6,7 @@ class MainPage extends StatelessWidget {
   const MainPage({super.key, required StatefulNavigationShell navigationShell})
       : _navigationShell = navigationShell;
 
-  void _onTap(int index) {
+  void _onTap(int index)  {
     _navigationShell.goBranch(
       index,
       initialLocation: index == _navigationShell.currentIndex,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:task_list_challenge_1/app/model/task_model.dart';
-import 'package:task_list_challenge_1/app/service/task_service.dart';
+import 'package:task_list_challenge_1/app/controller/task_controller.dart';
 
 class DeleteConfigWidget extends StatelessWidget {
   final Task task;
@@ -10,7 +10,7 @@ class DeleteConfigWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<TaskService>(builder: (_, taskService, widget) {
+    return Consumer<TaskController>(builder: (_, taskService, widget) {
       return InkWell(
           onTap: () {
             showDialog(

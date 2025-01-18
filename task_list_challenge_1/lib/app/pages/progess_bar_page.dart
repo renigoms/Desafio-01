@@ -1,9 +1,9 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:task_list_challenge_1/app/repositories/task_repository.dart';
-import 'package:task_list_challenge_1/app/service/progress_service.dart';
+import 'package:task_list_challenge_1/app/controller/progress_controller.dart';
 import 'package:task_list_challenge_1/app/util/section_configuration.dart';
+import 'package:task_list_challenge_1/app/widgets/listtile_config.dart';
 
 class ProgressBarPage extends StatefulWidget {
   const ProgressBarPage({super.key});
@@ -13,8 +13,6 @@ class ProgressBarPage extends StatefulWidget {
 }
 
 class _ProgressBarPageState extends State<ProgressBarPage> {
-  final TaskRepository _taskRepository = TaskRepository();
-
   double _percentCompleted = 0.0, _percentPending = 0.0;
 
   int touchedIndex = 0;
@@ -36,16 +34,15 @@ class _ProgressBarPageState extends State<ProgressBarPage> {
           ),
         ),
       ),
-      body: Consumer<ProgressService>(builder: (_, progressService, widget) {
-        _percentCompleted = progressService.percentCompleted;
-        _percentPending = progressService.percentPending;
+      body: Consumer<ProgressController>(
+          builder: (_, progressController, widget) {
+        _percentCompleted = progressController.getPercentCompleted();
+        _percentPending = progressController.getPercentPending();
         return RefreshIndicator(
           color: Colors.green,
           onRefresh: () async {
-            await progressService
-                .calculatePercentCompleted(_taskRepository.getTaskList);
-            await progressService
-                .calculatePercentPending(_taskRepository.getTaskList);
+            await progressController.calculatePercentCompleted();
+            await progressController.calculatePercentPending();
           },
           child: Container(
             margin: const EdgeInsets.only(top: 80),
@@ -79,9 +76,10 @@ class _ProgressBarPageState extends State<ProgressBarPage> {
                                 pieTouchData: PieTouchData(
                                   touchCallback:
                                       (FlTouchEvent event, pieTouchResponse) {
-                                    progressService.animationLogic(
+                                    progressController.animationLogic(
                                         event, pieTouchResponse);
-                                    touchedIndex = progressService.touchedIndex;
+                                    touchedIndex =
+                                        progressController.getTouchedIndex();
                                     _isTouchedCompleted = touchedIndex == 0;
                                     _isTouchPending = touchedIndex == 1;
                                   },
@@ -121,33 +119,24 @@ class _ProgressBarPageState extends State<ProgressBarPage> {
                                     child: Text(
                                       "Legend",
                                       style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
-                                  ListTile(
-                                    leading: Icon(
+                                  ListTileConfig(
+                                    icon: Icon(
                                       Icons.rectangle,
                                       color: Colors.green,
                                     ),
-                                    title: Text(
-                                      "Completed",
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                                    text: "Completed",
                                   ),
-                                  ListTile(
-                                    leading: Icon(
+                                  ListTileConfig(
+                                    icon: Icon(
                                       Icons.rectangle,
                                       color: Colors.red,
                                     ),
-                                    title: Text(
-                                      "Pending",
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                                    text: "Pending",
                                   ),
                                 ],
                               ),

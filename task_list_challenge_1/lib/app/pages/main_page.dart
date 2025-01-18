@@ -6,7 +6,7 @@ class MainPage extends StatelessWidget {
   const MainPage({super.key, required StatefulNavigationShell navigationShell})
       : _navigationShell = navigationShell;
 
-  void _onTap(int index)  {
+  void _onTap(int index) {
     _navigationShell.goBranch(
       index,
       initialLocation: index == _navigationShell.currentIndex,
@@ -29,7 +29,7 @@ class MainPage extends StatelessWidget {
         // type: BottomNavigationBarType.fixed,
         currentIndex: _navigationShell.currentIndex,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "home"),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(
               icon: Icon(Icons.graphic_eq), label: "Progress")
         ],

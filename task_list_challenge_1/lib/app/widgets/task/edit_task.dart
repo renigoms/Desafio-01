@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:task_list_challenge_1/app/model/task_model.dart';
-import 'package:task_list_challenge_1/app/service/task_service.dart';
-
+import 'package:task_list_challenge_1/app/controller/task_controller.dart';
 
 class EditConfigWidget extends StatelessWidget {
   final TextEditingController _editController;
   final Task _task;
-  
+
   const EditConfigWidget(
       {super.key,
       required TextEditingController editController,
-      required Task task}):
-    _task = task,
-    _editController = editController;
-  
+      required Task task})
+      : _task = task,
+        _editController = editController;
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<TaskService>(builder: (_, taskService, widget) {
+    return Consumer<TaskController>(builder: (_, taskController, widget) {
       return InkWell(
           onTap: () {
             showDialog(
@@ -43,8 +41,8 @@ class EditConfigWidget extends StatelessWidget {
                   actions: [
                     ElevatedButton(
                       onPressed: () {
-                        taskService.saveEdition(_editController.text, context);
-                        _task.setTitle = taskService.textEdited;
+                        taskController.saveEdition(_editController.text, context);
+                        _task.setTitle = taskController.getTxtEdited();
                       },
                       child: const Text(
                         "Save",

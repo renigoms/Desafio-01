@@ -18,7 +18,8 @@ class TaskController extends ChangeNotifier {
   }
 
   void removeTask(String id, BuildContext context) {
-    _taskService.removeTask(id, context);
+    _taskService.removeTask(id);
+    GoRouter.of(context).pop();
     notifyListeners();
   }
 

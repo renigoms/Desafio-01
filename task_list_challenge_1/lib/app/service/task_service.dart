@@ -18,12 +18,11 @@ class TaskService {
 
   void saveEdition(String edit) {
     _textEdited = edit;
-    // GoRouter.of(context).pop();
   }
 
-  void removeTask(String id, BuildContext context) {
+  void removeTask(String id) {
     _taskRepository.deleteTask(id);
-    GoRouter.of(context).pop();
+    
   }
 
   void taskFilter(String filter) {

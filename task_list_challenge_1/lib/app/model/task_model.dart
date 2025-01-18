@@ -8,6 +8,12 @@ class Task {
     _id = _countID();
   }
 
+  Map<String, dynamic> toJson() => {
+        "id": _id,
+        "title": _title,
+        "isFinished": _isFinished,
+      };
+
   static String _countID() => (_count += 1).toString();
 
   String get getId => _id;

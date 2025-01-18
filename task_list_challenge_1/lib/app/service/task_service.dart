@@ -1,30 +1,29 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:task_list_challenge_1/app/model/task_model.dart';
 import 'package:task_list_challenge_1/app/repositories/task_repository.dart';
 
-class TaskService extends ChangeNotifier {
+class TaskService {
   List<Task> _tasks = [];
   String _messageField = "", _textEdited = "";
-  final TaskRepository _taskRepository = TaskRepository();
+  final _taskRepository = TaskRepository();
   bool _isFinished = false;
 
+  String _encodeJsonData(List<Task> taskList) =>
+      jsonEncode(taskList.map((task) => task.toJson()).toList());
 
-  void rebuildList() {
-    _tasks = _taskRepository.getTaskList;
-    notifyListeners();
-  }
+  void rebuildList() => _tasks = _taskRepository.getTaskList;
 
-  void saveEdition(String edit, BuildContext context) {
+  void saveEdition(String edit) {
     _textEdited = edit;
-    GoRouter.of(context).pop();
-    notifyListeners();
+    // GoRouter.of(context).pop();
   }
 
   void removeTask(String id, BuildContext context) {
     _taskRepository.deleteTask(id);
     GoRouter.of(context).pop();
-    notifyListeners();
   }
 
   void taskFilter(String filter) {
@@ -43,30 +42,20 @@ class TaskService extends ChangeNotifier {
         _tasks = _taskRepository.getTaskList;
         break;
     }
-    notifyListeners();
   }
 
   List<Task> get tasks => _tasks;
 
   String get messageField => _messageField;
 
-  void setMessageField(String message, BuildContext context) {
-    if (message != "") {
-      _taskRepository.addTask(Task(message, false));
-    } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text("Blank field detected")));
-    }
+  void setMessageField(String message) {
+    _taskRepository.addTask(Task(message, false));
     _messageField = "";
-    notifyListeners();
   }
 
   String get textEdited => _textEdited;
 
   bool get isFinished => _isFinished;
 
-  setIsFinished(bool value) {
-    _isFinished = value;
-    notifyListeners();
-  }
+  set isFinished(bool value) => _isFinished = value;
 }

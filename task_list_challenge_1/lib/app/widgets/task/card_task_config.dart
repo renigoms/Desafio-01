@@ -5,7 +5,6 @@ import 'package:task_list_challenge_1/app/model/task_model.dart';
 import 'package:task_list_challenge_1/app/widgets/task/delete_task.dart';
 import 'package:task_list_challenge_1/app/widgets/task/edit_task.dart';
 
-
 class CardTaskConfig extends StatelessWidget {
   final Task _task;
   final TextEditingController _editingController;
@@ -22,7 +21,7 @@ class CardTaskConfig extends StatelessWidget {
     return Consumer<TaskController>(builder: (_, taskController, widget) {
       return Card(
         elevation: 8,
-        color: const Color.fromARGB(255, 203, 202, 202),
+        color: const Color.fromARGB(192, 243, 243, 59),
         child: Column(
           children: [
             Container(

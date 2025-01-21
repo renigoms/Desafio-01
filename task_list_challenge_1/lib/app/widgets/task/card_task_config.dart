@@ -8,12 +8,15 @@ import 'package:task_list_challenge_1/app/widgets/task/edit_task.dart';
 class CardTaskConfig extends StatelessWidget {
   final Task _task;
   final TextEditingController _editingController;
+  final int _index;
 
   const CardTaskConfig(
       {super.key,
       required Task task,
+      required int index,
       required TextEditingController editingController})
       : _task = task,
+        _index = index,
         _editingController = editingController;
 
   @override
@@ -21,6 +24,7 @@ class CardTaskConfig extends StatelessWidget {
     return Consumer<TaskController>(builder: (_, taskController, widget) {
       return Card(
         elevation: 8,
+        shadowColor: Colors.black,
         color: const Color.fromARGB(192, 243, 243, 59),
         child: Column(
           children: [
@@ -34,7 +38,7 @@ class CardTaskConfig extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "TASK ${_task.getId}",
+                    "TASK ${_index + 1}",
                     style: const TextStyle(
                         fontSize: 20, fontWeight: FontWeight.bold),
                   ),
@@ -54,8 +58,9 @@ class CardTaskConfig extends StatelessWidget {
                             activeColor: Colors.green,
                             value: _task.isFinished,
                             onChanged: (value) {
-                              taskController.setIsFinished(value!);
-                              _task.isFinished = taskController.isFinished();
+                              taskController.setIsFinished(value!, _task.getId);
+                              _task.isFinished =
+                                  taskController.isFinished(_task.getId);
                             }),
                       ],
                     ),

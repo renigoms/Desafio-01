@@ -46,6 +46,7 @@ class AddTasks extends StatelessWidget {
                       taskController.addTask(message);
                       _textEditingController.text =
                           taskController.getMessageField();
+                      FocusScope.of(context).unfocus();
                     } catch (e) {
                       print(e);
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

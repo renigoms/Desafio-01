@@ -61,7 +61,6 @@ class _TaskPageState extends State<TaskPage> {
                         content: Text(taskController.messageSnackBar!),
                       ),
                     );
-                    taskController.rebuildList();
                   }
                 } catch (e) {
                   print(e.toString());

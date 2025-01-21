@@ -82,6 +82,7 @@ class EditConfigWidget extends StatelessWidget {
                         try {
                           taskController.saveEdition(
                               _editController.text, _task.getId, context);
+                          FocusScope.of(context).unfocus();
                         } catch (e) {
                           print(e);
                           ScaffoldMessenger.of(context).showSnackBar(

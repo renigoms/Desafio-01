@@ -36,6 +36,7 @@ class DeleteConfigWidget extends StatelessWidget {
                       onPressed: () {
                         try {
                           taskController.removeTask(task.getId, context);
+                          FocusScope.of(context).unfocus();
                         } catch (e) {
                           print(e);
                         }

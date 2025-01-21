@@ -10,7 +10,7 @@ class DeleteConfigWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<TaskController>(builder: (_, taskService, widget) {
+    return Consumer<TaskController>(builder: (_, taskController, widget) {
       return InkWell(
           onTap: () {
             showDialog(
@@ -34,7 +34,11 @@ class DeleteConfigWidget extends StatelessWidget {
                   actions: [
                     TextButton(
                       onPressed: () {
-                        taskService.removeTask(task.getId, context);
+                        try {
+                          taskController.removeTask(task.getId, context);
+                        } catch (e) {
+                          print(e);
+                        }
                       },
                       child: const Text(
                         "Yes",

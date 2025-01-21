@@ -20,21 +20,18 @@ class _TaskPageState extends State<TaskPage> {
   List<Task> _tasks = [];
 
   @override
-  void initState() {
-    super.initState();
-    // Adiar a chamada para função até que a fase de construção atual seja concluída
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      Provider.of<TaskController>(context, listen: false).rebuildList();
-    });
-  }
-
-  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     // Adiar a chamada para função até que a fase de construção atual seja concluída
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      Provider.of<TaskController>(context, listen: false).rebuildList();
-    });
+    try {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        Provider.of<TaskController>(context, listen: false).rebuildList();
+      });
+    } catch (e) {
+      print(e);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Internal error !")));
+    }
   }
 
   @override
@@ -56,7 +53,21 @@ class _TaskPageState extends State<TaskPage> {
           actions: [
             PopupMenuButton(
               onSelected: (value) {
-                taskController.taskFilter(value);
+                try {
+                  taskController.taskFilter(value, context);
+                  if (taskController.messageSnackBar != null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(taskController.messageSnackBar!),
+                      ),
+                    );
+                    taskController.rebuildList();
+                  }
+                } catch (e) {
+                  print(e.toString());
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Internal error !")));
+                }
               },
               elevation: 20,
               shape: const RoundedRectangleBorder(
@@ -77,36 +88,37 @@ class _TaskPageState extends State<TaskPage> {
             ),
             child: Column(
               children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                AddTasks(
-                  textEditingController: textEditingController,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Expanded(
-                  flex: 200,
-                  child: ListView.builder(
-                    itemCount: _tasks.length,
-                    itemBuilder: (
-                      BuildContext bc,
-                      int index,
-                    ) {
-                      Task task = _tasks[index];
-                      return ListTile(
-                        title: CardTaskConfig(
-                          task: task,
-                          editingController: editController,
-                        ),
-                      );
-                    },
+                Flexible(
+                  flex: 2,
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 18),
+                    child: AddTasks(
+                      textEditingController: textEditingController,
+                    ),
                   ),
                 ),
-                const SizedBox(
-                  height: 181,
-                )
+                Flexible(
+                  flex: 4,
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    child: ListView.builder(
+                      itemCount: _tasks.length,
+                      itemBuilder: (
+                        BuildContext bc,
+                        int index,
+                      ) {
+                        Task task = _tasks[index];
+                        return ListTile(
+                          title: CardTaskConfig(
+                            task: task,
+                            index: index,
+                            editingController: editController,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

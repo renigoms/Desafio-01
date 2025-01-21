@@ -1,18 +1,23 @@
-// import 'package:shared_preferences/shared_preferences.dart';
-import 'package:task_list_challenge_1/app/model/task_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TaskRepository {
-  static const String _taskListKey = "taskListKey";
-  static final List<Task> _taskListBase = [];
-  // static final Future<SharedPreferences> _prefs =
-  //     SharedPreferences.getInstance();
-  
+  static const _taskListKey = "taskListKey";
 
+  void saveTask(String listTaskEncode) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString(_taskListKey, listTaskEncode);
+    } catch (e) {
+      rethrow;
+    }
+  }
 
-  void addTask(Task task) => _taskListBase.add(task);
-
-  List<Task> get getTaskList => _taskListBase;
-
-  void deleteTask(String id) =>
-      _taskListBase.removeWhere((value) => value.getId == id);
+  Future<String> getTaskList() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      return prefs.getString(_taskListKey) ?? "";
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

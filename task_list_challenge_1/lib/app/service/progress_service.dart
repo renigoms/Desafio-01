@@ -1,8 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:task_list_challenge_1/app/repositories/task_repository.dart';
+import 'package:task_list_challenge_1/app/service/task_service.dart';
 
 class ProgressService {
-  final TaskRepository _taskRepository = TaskRepository();
+  final TaskService _taskService = TaskService();
 
   double _percentCompleted = 0.0, _percentPending = 0.0;
 
@@ -16,7 +16,7 @@ class ProgressService {
 
   Future<void> calculatePercentCompleted() async {
     await Future.delayed(const Duration(seconds: 1));
-    var listTasks = _taskRepository.getTaskList;
+    var listTasks =  _taskService.tasks;
     final totalSize = listTasks.length,
         completedTasks = listTasks.where((task) => task.isFinished).length;
     final percentBase =
@@ -26,7 +26,7 @@ class ProgressService {
 
   Future<void> calculatePercentPending() async {
     await Future.delayed(const Duration(seconds: 1));
-    var listTasks = _taskRepository.getTaskList;
+    var listTasks = _taskService.tasks;
     final totalSize = listTasks.length,
         completedTasks = listTasks.where((task) => !task.isFinished).length;
     final percentBase =

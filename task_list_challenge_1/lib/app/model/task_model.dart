@@ -1,11 +1,22 @@
+import 'package:uuid/uuid.dart';
+
 class Task {
-  static int _count = 0;
   String _id = "0";
   String _title = "";
   bool _isFinished = false;
 
   Task(this._title, this._isFinished) {
-    _id = _countID();
+    _id = const Uuid().v1();
+  }
+
+  Task._(this._id, this._title, this._isFinished);
+
+  factory Task.fromMap(Map<String, dynamic> taskMap) {
+    return Task._(
+      taskMap["id"],
+      taskMap["title"],
+      taskMap["isFinished"],
+    );
   }
 
   Map<String, dynamic> toJson() => {
@@ -13,8 +24,6 @@ class Task {
         "title": _title,
         "isFinished": _isFinished,
       };
-
-  static String _countID() => (_count += 1).toString();
 
   String get getId => _id;
 

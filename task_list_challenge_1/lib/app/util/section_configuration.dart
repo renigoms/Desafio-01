@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 abstract class SectionConfig {
   static String _percentToString(double percent) =>
-      "${(double.parse(percent.toStringAsPrecision(2)) * 100).toString()}%";
+      "${(double.parse(percent.toStringAsPrecision(2)) * 100).toStringAsPrecision(2)}%";
 
   static PieChartSectionData pieChartSectionDataConfig(
           bool isTouchedCompleted, double percent, Color color) =>
@@ -16,7 +16,7 @@ abstract class SectionConfig {
         value: percent,
         title: _percentToString(percent),
         titleStyle: TextStyle(
-          fontSize: isTouchedCompleted ? 30 : 22,
+          fontSize: isTouchedCompleted ? 35 : 27,
           color: Colors.white,
           fontWeight: FontWeight.bold,
         ),

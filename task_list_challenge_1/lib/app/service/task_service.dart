@@ -26,7 +26,7 @@ class TaskService {
     }
   }
 
-  void addTask(String message) async{
+  void addTask(String message) async {
     try {
       _tasks = _decodeJsonTaskData(await _taskRepository.getTaskList());
       _tasks.add(Task(message, false));
@@ -70,7 +70,7 @@ class TaskService {
           messageSnackBar = "There are no ${filter.toLowerCase()} tasks !";
           return;
         }
-        
+
         _tasks = taskFilter;
       } else if (filter == "Pending") {
         messageSnackBar = null;
@@ -80,7 +80,7 @@ class TaskService {
           messageSnackBar = "There are no ${filter.toLowerCase()} tasks !";
           return;
         }
-        
+
         _tasks = taskFilter;
       }
     } catch (e) {

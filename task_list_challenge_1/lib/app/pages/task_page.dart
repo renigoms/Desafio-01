@@ -3,9 +3,9 @@ import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:task_list_challenge_1/app/controller/task_controller.dart';
 import 'package:task_list_challenge_1/app/model/task_model.dart';
-import 'package:task_list_challenge_1/app/util/consts.dart';
 import 'package:task_list_challenge_1/app/widgets/task/add_tasks.dart';
 import 'package:task_list_challenge_1/app/widgets/task/card_task_config.dart';
+import 'package:task_list_challenge_1/app/widgets/task/menu_button.dart';
 
 class TaskPage extends StatefulWidget {
   const TaskPage({super.key});
@@ -50,34 +50,8 @@ class _TaskPageState extends State<TaskPage> {
               ),
             ),
           ),
-          actions: [
-            PopupMenuButton(
-              onSelected: (value) {
-                try {
-                  taskController.taskFilter(value, context);
-                  if (taskController.messageSnackBar != null) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(taskController.messageSnackBar!),
-                      ),
-                    );
-                  }
-                } catch (e) {
-                  print(e.toString());
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Internal error !")));
-                }
-              },
-              elevation: 20,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(15)),
-              ),
-              shadowColor: Colors.grey,
-              icon: const Icon(Icons.filter_alt_outlined),
-              iconColor: Colors.white,
-              iconSize: 30,
-              itemBuilder: (BuildContext bc) => popupMenuEntryList,
-            ),
+          actions: const [
+            PopUpMenuButtonConfig(),
           ],
         ),
         body: SingleChildScrollView(

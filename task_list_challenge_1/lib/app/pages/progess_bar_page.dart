@@ -4,7 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:task_list_challenge_1/app/controller/progress_controller.dart';
 import 'package:task_list_challenge_1/app/controller/task_controller.dart';
-import 'package:task_list_challenge_1/app/util/section_configuration.dart';
+import 'package:task_list_challenge_1/app/configuration/section_configuration.dart';
 import 'package:task_list_challenge_1/app/widgets/listtile_config.dart';
 
 class ProgressBarPage extends StatefulWidget {
@@ -126,7 +126,7 @@ class _ProgressBarPageState extends State<ProgressBarPage> {
                             ),
                           ),
                           Container(
-                            margin: const EdgeInsets.only(left: 150, top: 70),
+                            margin: const EdgeInsets.only(left: 150, top: 30),
                             width: 200,
                             height: 200,
                             decoration: BoxDecoration(

@@ -48,7 +48,6 @@ class AddTasks extends StatelessWidget {
                           taskController.getMessageField();
                       FocusScope.of(context).unfocus();
                     } catch (e) {
-                      print(e);
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text(
                           "Internal error !",

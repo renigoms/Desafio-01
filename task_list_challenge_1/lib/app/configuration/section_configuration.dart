@@ -2,8 +2,9 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 abstract class SectionConfig {
-  static String _percentToString(double percent) =>
-      "${(double.parse(percent.toStringAsPrecision(2)) * 100).toStringAsPrecision(2)}%";
+  static String _percentToString(double percent) => percent != 1
+      ? "${(double.parse(percent.toStringAsPrecision(2)) * 100).toStringAsPrecision(2)}%"
+      : "${(percent * 100).toInt()}%";
 
   static PieChartSectionData pieChartSectionDataConfig(
           bool isTouchedCompleted, double percent, Color color) =>

@@ -12,7 +12,7 @@ class AddTasks extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<TaskController>(builder: (_, taskController, widget) {
       return Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15),
         child: Card(
           color: Colors.white,
           elevation: 4,

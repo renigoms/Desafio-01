@@ -3,14 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:task_list_challenge_1/app/controller/task_controller.dart';
 import 'package:task_list_challenge_1/app/widgets/listtile_config.dart';
 
-class PopUpMenuButtonConfig extends StatefulWidget {
-  const PopUpMenuButtonConfig({super.key});
+class FilterButtonConfig extends StatefulWidget {
+  const FilterButtonConfig({super.key});
 
   @override
-  State<PopUpMenuButtonConfig> createState() => _PopUpMenuButtonConfigState();
+  State<FilterButtonConfig> createState() => _FilterButtonConfigState();
 }
 
-class _PopUpMenuButtonConfigState extends State<PopUpMenuButtonConfig> {
+class _FilterButtonConfigState extends State<FilterButtonConfig> {
   final List<Map<String, dynamic>> _detailsConfig = [
     {
       "title": "Completed",
@@ -49,39 +49,36 @@ class _PopUpMenuButtonConfigState extends State<PopUpMenuButtonConfig> {
     );
   }
 
-  
   @override
   Widget build(BuildContext context) {
-    return Consumer<TaskController>(
-      builder: (_, taskController, widget) {
-        return PopupMenuButton(
-                  onSelected: (value) {
-                    try {
-                      taskController.taskFilter(value, context);
-                      if (taskController.messageSnackBar != null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(taskController.messageSnackBar!),
-                          ),
-                        );
-                      }
-                    } catch (e) {
-                      print(e.toString());
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Internal error !")));
-                    }
-                  },
-                  elevation: 20,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                  ),
-                  shadowColor: Colors.grey,
-                  icon: const Icon(Icons.filter_alt_outlined),
-                  iconColor: Colors.white,
-                  iconSize: 30,
-                  itemBuilder: (BuildContext bc) => popupMenuEntryList,
-                );
-      }
-    );
+    return Consumer<TaskController>(builder: (_, taskController, widget) {
+      return PopupMenuButton(
+        onSelected: (value) {
+          try {
+            taskController.taskFilter(value, context);
+            if (taskController.messageSnackBar != null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(taskController.messageSnackBar!),
+                ),
+              );
+            }
+          } catch (e) {
+            print(e.toString());
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Internal error !")));
+          }
+        },
+        elevation: 20,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(15)),
+        ),
+        shadowColor: Colors.grey,
+        icon: const Icon(Icons.filter_alt_outlined),
+        iconColor: Colors.white,
+        iconSize: 30,
+        itemBuilder: (BuildContext bc) => popupMenuEntryList,
+      );
+    });
   }
 }

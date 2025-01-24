@@ -41,6 +41,7 @@ class EditConfigWidget extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
                         child: TextFormField(
+                          cursorColor: Colors.black,
                           decoration: const InputDecoration(
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.all(

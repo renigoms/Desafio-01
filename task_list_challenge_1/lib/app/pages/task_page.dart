@@ -51,7 +51,7 @@ class _TaskPageState extends State<TaskPage> {
             ),
           ),
           actions: const [
-            PopUpMenuButtonConfig(),
+            FilterButtonConfig(),
           ],
         ),
         body: SingleChildScrollView(

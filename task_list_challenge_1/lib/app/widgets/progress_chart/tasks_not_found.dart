@@ -7,45 +7,50 @@ class TaskNotFound extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
-    return Consumer<ProgressController>(
-        builder: (_, progressController, widget) {
-      return RefreshIndicator(
-        color: Colors.green,
-        onRefresh: () async {
-          await progressController.calculatePercentCompleted();
-          await progressController.calculatePercentPending();
-        },
-        child: ListView(
-          children: [
-            Container(
-              padding: EdgeInsets.only(
-                bottom: height - 650,
-              ),
-              width: width,
-              height: height,
-              child: const Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.no_sim_outlined,
-                    color: Colors.red,
-                    size: 200,
+    return LayoutBuilder(builder: (_, constraints) {
+      return Consumer<ProgressController>(
+          builder: (_, progressController, widget) {
+        return OrientationBuilder(builder: (context, orientation) {
+          return RefreshIndicator(
+            color: Colors.green,
+            onRefresh: () async {
+              await progressController.calculatePercentCompleted();
+              await progressController.calculatePercentPending();
+            },
+            child: ListView(
+              children: [
+                Container(
+                  padding: orientation == Orientation.landscape
+                      ? EdgeInsets.symmetric(
+                          vertical: constraints.maxHeight * 0.001,
+                        )
+                      : EdgeInsets.symmetric(
+                          vertical: constraints.maxHeight * 0.3,
+                        ),
+                  alignment: Alignment.center,
+                  child: const Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.no_sim_outlined,
+                        color: Colors.red,
+                        size: 200,
+                      ),
+                      Text(
+                        "Without Tasks",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    "Without Tasks",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
-      );
+          );
+        });
+      });
     });
   }
 }

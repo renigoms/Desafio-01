@@ -28,7 +28,9 @@ class TaskService {
 
   void addTask(String message) async {
     try {
-      _tasks = _decodeJsonTaskData(await _taskRepository.getTaskList());
+      String taskListString = await _taskRepository.getTaskList();
+      _tasks =
+          taskListString != "{}" ? _decodeJsonTaskData(taskListString) : [];
       _tasks.add(Task(message, false));
       _taskRepository.saveTask(_encodeJsonTaskData(_tasks));
       _messageTask = "";

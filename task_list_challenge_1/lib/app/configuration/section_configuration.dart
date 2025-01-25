@@ -6,14 +6,16 @@ abstract class SectionConfig {
       ? "${(double.parse(percent.toStringAsPrecision(2)) * 100).toStringAsPrecision(2)}%"
       : "${(percent * 100).toInt()}%";
 
-  static PieChartSectionData pieChartSectionDataConfig(
-          bool isTouchedCompleted, double percent, Color color) =>
+  static PieChartSectionData pieChartSectionDataConfig(bool isTouchedCompleted,
+          double percent, Color color, BoxConstraints constraint) =>
       PieChartSectionData(
         borderSide: const BorderSide(
           color: Colors.black,
           width: 5,
         ),
-        radius: isTouchedCompleted ? 105.0 : 80.0,
+        radius: isTouchedCompleted
+            ? constraint.maxHeight * 0.25
+            : constraint.maxHeight * 0.18,
         value: percent,
         title: _percentToString(percent),
         titleStyle: TextStyle(

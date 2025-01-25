@@ -10,10 +10,11 @@ class ProgressPizzaChart extends StatefulWidget {
 
   late double _percentPending;
 
-  ProgressPizzaChart(
-      {super.key,
-      required double percentCompleted,
-      required double percentPending}) {
+  ProgressPizzaChart({
+    super.key,
+    required double percentCompleted,
+    required double percentPending,
+  }) {
     _percentCompleted = percentCompleted;
     _percentPending = percentPending;
   }
@@ -31,50 +32,38 @@ class _ProgressPizzaChartState extends State<ProgressPizzaChart> {
   Widget build(BuildContext context) {
     return Consumer<ProgressController>(
       builder: (_, progressController, widget2) {
-        return RefreshIndicator(
-          color: Colors.green,
-          onRefresh: () async {
-            await progressController.calculatePercentCompleted();
-            await progressController.calculatePercentPending();
-            widget._percentCompleted = progressController.getPercentCompleted();
-            widget._percentPending = progressController.getPercentPending();
-          },
-          child: ListView(
-            children: [
-              Container(
-                padding: const EdgeInsets.only(bottom: 40),
-                height: MediaQuery.of(context).size.height - 400,
-                width: MediaQuery.of(context).size.width,
-                child: PieChart(
-                  PieChartData(
-                    pieTouchData: PieTouchData(
-                      touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                        progressController.animationLogic(
-                            event, pieTouchResponse);
-                        _touchedIndex = progressController.getTouchedIndex();
-                        _isTouchedCompleted = _touchedIndex == 0;
-                        _isTouchPending = _touchedIndex == 1;
-                      },
-                    ),
-                    sectionsSpace: 5,
-                    centerSpaceRadius: 60,
-                    sections: [
-                      SectionConfig.pieChartSectionDataConfig(
-                        _isTouchedCompleted,
-                        widget._percentCompleted,
-                        Colors.green,
-                      ),
-                      SectionConfig.pieChartSectionDataConfig(
-                        _isTouchPending,
-                        widget._percentPending,
-                        Colors.red,
-                      )
-                    ],
-                  ),
+        return LayoutBuilder(
+          builder: (_, constraints) {
+            return PieChart(
+              PieChartData(
+                pieTouchData: PieTouchData(
+                  touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                    progressController.animationLogic(
+                        event, pieTouchResponse);
+                    _touchedIndex = progressController.getTouchedIndex();
+                    _isTouchedCompleted = _touchedIndex == 0;
+                    _isTouchPending = _touchedIndex == 1;
+                  },
                 ),
+                sectionsSpace: 5,
+                centerSpaceRadius: 60,
+                sections: [
+                  SectionConfig.pieChartSectionDataConfig(
+                    _isTouchedCompleted,
+                    widget._percentCompleted,
+                    Colors.green,
+                    constraints
+                  ),
+                  SectionConfig.pieChartSectionDataConfig(
+                    _isTouchPending,
+                    widget._percentPending,
+                    Colors.red,
+                    constraints
+                  )
+                ],
               ),
-            ],
-          ),
+            );
+          }
         );
       },
     );

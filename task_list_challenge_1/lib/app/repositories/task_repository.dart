@@ -15,7 +15,7 @@ class TaskRepository {
   Future<String> getTaskList() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      return prefs.getString(_taskListKey) ?? "";
+      return prefs.getString(_taskListKey) ?? "{}";
     } catch (e) {
       rethrow;
     }

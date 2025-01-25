@@ -1,6 +1,8 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
+import 'package:task_list_challenge_1/app/configuration/section_configuration.dart';
 import 'package:task_list_challenge_1/app/controller/progress_controller.dart';
 import 'package:task_list_challenge_1/app/controller/task_controller.dart';
 import 'package:task_list_challenge_1/app/widgets/progress_chart/chart.dart';
@@ -55,30 +57,51 @@ class _ProgressBarPageState extends State<ProgressBarPage> {
         ),
       ),
       body: Consumer<ProgressController>(
-          builder: (_, progressController, widget) {
+          builder: (_, progressController, widget2) {
         _percentCompleted = progressController.getPercentCompleted();
         _percentPending = progressController.getPercentPending();
-        return Container(
-          child: _percentCompleted == 0.0 && _percentPending == 0.0
-              ? const TaskNotFound()
-              : Column(
-                  children: [
-                    Expanded(
-                        flex: 5,
-                        child: ProgressPizzaChart(
-                            percentCompleted: _percentCompleted,
-                            percentPending: _percentPending)),
-                    Expanded(
-                      flex: 4,
-                      child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 40, vertical: 50),
-                          width: double.infinity,
-                          height: double.infinity,
-                          child: const ChartLegends()),
-                    )
-                  ],
-                ),
+        return RefreshIndicator(
+          color: Colors.green,
+          onRefresh: () async {
+            await progressController.calculatePercentCompleted();
+            await progressController.calculatePercentPending();
+          },
+          child: OrientationBuilder(builder: (_, orientation) {
+            return LayoutBuilder(
+              builder: (_, constraints) {
+                var height = constraints.maxHeight;
+                var width = constraints.maxWidth;
+                return _percentCompleted == 0 && _percentPending == 0
+                    ? const TaskNotFound()
+                    : ListView(
+                        scrollDirection: orientation == Orientation.landscape
+                            ? Axis.horizontal
+                            : Axis.vertical,
+                        children: [
+                          SizedBox(
+                            height: height * 0.5,
+                            width: width * 0.5,
+                            child: ProgressPizzaChart(
+                              percentCompleted: _percentCompleted,
+                              percentPending: _percentPending,
+                            ),
+                          ),
+                          Container(
+                            height: height * 0.5,
+                            width: width * 0.5,
+                            padding: orientation == Orientation.landscape
+                                ? EdgeInsets.all(height * 0.15)
+                                : EdgeInsets.symmetric(
+                                    vertical: height * 0.1,
+                                    horizontal: width * 0.238,
+                                  ),
+                            child: const ChartLegends(),
+                          ),
+                        ],
+                      );
+              },
+            );
+          }),
         );
       }),
     );

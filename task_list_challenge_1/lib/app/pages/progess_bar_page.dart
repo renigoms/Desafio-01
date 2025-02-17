@@ -1,8 +1,6 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
-import 'package:task_list_challenge_1/app/configuration/section_configuration.dart';
 import 'package:task_list_challenge_1/app/controller/progress_controller.dart';
 import 'package:task_list_challenge_1/app/controller/task_controller.dart';
 import 'package:task_list_challenge_1/app/widgets/progress_chart/chart.dart';
